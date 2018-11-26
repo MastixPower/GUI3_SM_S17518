@@ -1,40 +1,60 @@
 package zad1;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Letters extends Thread implements Iterable<String>{
-String word;
-String letter="Thread ";
-int counter=0;
-Iterator<String> iterator;
-Letters(String var)
-{
-	this.word = var;
-    iterator = new Iterator<String>() {
-    	 @Override
-         public boolean hasNext() {
-    		 if(counter<word.length())return true;
-             return false;
-         }
-
-         @Override
-         public String next() {
-           letter=letter+Letters.this.word.charAt(counter);
-           counter++;
-             return Letters.this.letter;
-         }
+public class Letters extends Thread{
+	String word;
+	public Thread t;
+	int wordInteger=0;
+    List <Thread> list= new ArrayList<Thread>();
+    
+    Letters(String word){
+       this.word=word;
+       for(int i=0;i<word.length();i++)
+       {
+    	   t=new Thread(){
+    		   
+    	          @Override
+    	          public void run(){
+    	        	  for(;;)
+    	        	  {
+    	    	           
+    	    	            try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} 
+    	    	            System.out.print(getName());
+    	        	  }
+    	          }
+    	        };
+    	   t.setName("Thread "+this.word.charAt(i));
+    	   //System.out.println(" "+this.word.charAt(wordInteger));
+    	   wordInteger++;
+    	   list.add(t);
+       }
+       };
+         
+      public void runThreads() {
+    	  for(int i=0;i<word.length();i++) {
+    		list.get(i).setName(word.charAt(i)+"");
+    		list.get(i).start();
+  		  }
+    	 
+      }
+      Runnable task3 = () -> {
+        System.out.print(Thread.currentThread().getName());
     };
-}
-Iterator<String> getThreads()
-{
-	return letter;
-}
-
-
-@Override
-public Iterator<String> iterator() {
-
-    return this.iterator;
-
-
-}
-}
+      public void stopThreads() {
+    	  for(int i=0;i<word.length();i++)
+    	  {
+    		  list.get(i).stop();
+    	  }
+      }
+      public List<Thread> getThreads() {
+    	  
+    	  return list;
+      }
+       
+    }
