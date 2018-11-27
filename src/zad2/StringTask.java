@@ -1,38 +1,47 @@
 package zad2;
 
-public class StringTask extends Thread {
+public class StringTask implements Runnable{
 	Thread t;
 	String name;
 	int number;
-	
+	TaskState state=null;
 	StringTask(String name,int number){
+		
 		this.name=name;
 		this.number=number;
 		this.t=new Thread();
-		System.out.println(t.getState());
+		state=TaskState.CREATED;
+		
 	}
 
 	public String getResult() {
-		return "A";
+		return name;
 	}
 	
 	public void start(){
-		setState();
+		state=TaskState.RUNNING;
+		this.run();
 	}
 	
 	public void abort() {
-		
+		state=TaskState.ABORTED;
+		t.interrupt();
 	}
 	public boolean isDone() {
+		if(state.equals(TaskState.READY) || state.equals(TaskState.ABORTED))
 		return true;
+		else return false;
 	}
 	public TaskState getState() {
-		TaskState n=new TaskState(t);
-		return n;
+		return state;
 	}
-	@Override
 	public void run() {
+		
 		String var=name;
-		for(int i=0;i<number;i++)name=name+var;
+		for(int i=1;i<number;i++) {
+		System.out.println("1");
+		name=name+var;
+		}
+		state=TaskState.READY;
 	}
 }
