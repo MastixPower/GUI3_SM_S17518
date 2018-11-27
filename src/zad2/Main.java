@@ -16,13 +16,14 @@ public class Main {
     /*<- tu zapisać kod  przerywający działanie tasku po sekundzie 
          i uruchomić go w odrębnym wątku
     */
+    	System.out.println(args[0]);
     }
     while (!task.isDone()) {
       Thread.sleep(500);
       switch(task.getState()) {
-        case RUNNING: System.out.print("R."); break;
-        case ABORTED: System.out.println(" ... aborted."); break;
-        case READY: System.out.println(" ... ready."); break;
+        //case RUNNING: System.out.print("R."); break;
+       // case ABORTED: System.out.println(" ... aborted."); break;
+        //case READY: System.out.println(" ... ready."); break;
         default: System.out.println("unknown state");
       }
 
